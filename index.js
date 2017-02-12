@@ -7,7 +7,6 @@ const EPSILON = Math.pow(2, -2);
 const MAX_STOPS = 1000;
 const RS = [
 	"09162",
-	"09173",
 	"09174",
 	"09175",
 	"09177",
@@ -66,11 +65,17 @@ const retrieveStops = function(minx, miny, maxx, maxy) {
 		var rs = leftPad((stop.stop_code.match(/^de:(\d+):/)||['', ''])[1], 5, '0');
 		if (RS[rs]) {
 			const existingStop = stopsById[stopId]
-			if (existingStop &&(
-				stop.stop_id !== existingStop.stop_id ||
-				stop.stop_name !== existingStop.stop_name ||
-				stop.stop_lon !== existingStop.stop_lon ||
-				stop.stop_lat !== existingStop.stop_lat)) {
+			if (existingStop) {
+				if (stop.stop_id !== existingStop.stop_id ||
+					stop.stop_name !== existingStop.stop_name ||
+					stop.stop_lon !== existingStop.stop_lon ||
+					stop.stop_lat !== existingStop.stop_lat)
+				{
+//					console.log("Duplicate but different stop.");
+//					console.log("Existing stop:", existingStop);
+//					console.log("Duplicate stop:", stop);
+//					throw new Error("Duplicate stop.");
+				}
 			}
 			else {
 				stopsById[stopId] = stop;
